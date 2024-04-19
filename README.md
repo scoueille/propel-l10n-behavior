@@ -1,26 +1,33 @@
-Propel l10n Behavior
-====================
+# Propel l10n Behavior
 
-[![Build Status](https://travis-ci.org/gossi/propel-l10n-behavior.svg?branch=master)](https://travis-ci.org/gossi/propel-l10n-behavior)
+[![Build Status](https://img.shields.io/scrutinizer/build/g/gossi/propel-l10n-behavior.svg?style=flat-square)](https://travis-ci.org/gossi/propel-l10n-behavior)
+[![Latest Stable Version](https://img.shields.io/packagist/v/gossi/propel-l10n-behavior.svg?style=flat-square)](https://packagist.org/packages/gossi/propel-l10n-behavior)
 
-The propel-l10n-behavior is an extension to propels own i18n behavior. Basically, it puts an API in front of the i18n behavior and let's you use propels default API but with localized content. You provide the localization you want to use once (globally) and you are ready to go.
+**propel-l10n-behavior** is an extension to Propel's own i18n behavior. Basically, it puts an API in front of the i18n behavior and lets you use Propel's default API but with localized content. You provide the localization you want to use once (globally) and you are ready to go.
 
 ## Installation
 
 Install via composer:
 
+```bash
+composer require gossi/propel-l10n-behavior
+```
+
+Or insert the following in your composer.json file:
+
 ```json
 {
-    "require": {
-        "gossi/propel-l10n-behavior": "~0"
-    }
+  "require": {
+    "gossi/propel-l10n-behavior": "~0"
+  }
 }
 ```
 
 ## Locale and Dependencies
-When working with locales, you should know about the locales and dependencies you can define for the propel-l10n-behavior. There are three mechanisms:
 
-- Locale (That's the default locale, when retrieving localized content from a propel object)
+When working with locales, you should know about the locales and dependencies you can define for propel-l10n-behavior. There are three mechanisms:
+
+- Locale (That's the default locale, when retrieving localized content from a Propel object)
 - Dependencies (This is a dependency chain, when a field is not available in the default locale)
 - Fallback (If nothing is found, try the fallback locale)
 
@@ -41,7 +48,7 @@ $book = new Book();
 $book->setLocale('ja');
 ```
 
-Now, the locale for book is japanese, while for all others it stays german (as seen in the example above). You can reset this object-related overwrite by setting the locale to `null`:
+Now, the locale for book is Japanese, while for all others it stays German (as seen in the example above). You can reset this object-related overwrite by setting the locale to `null`:
 
 ```php
 $book->setLocale(null);
@@ -71,7 +78,7 @@ echo PropelL10n::getFallback(); // de
 
 ### Working with Dependencies
 
-There is some API to work with dependencies:
+There are some API to work with dependencies:
 
 ```php
 // get and set one dependency
@@ -90,7 +97,7 @@ print_r(PropelL10n::getDependencies()); // outputs the array from above
 PropelL10n::hasDependency('de'); // true
 PropelL10n::hasDepdedency('ja'); // false
 
-// count depdencies for a given locale
+// count dependencies for a given locale
 PropelL10n::setDependencies(['de' => 'en', 'de-CH' => 'de']);
 PropelL10n::countDependencies('de-CH'); // 2
 ```
@@ -99,44 +106,41 @@ PropelL10n::countDependencies('de-CH'); // 2
 
 Whenever you retrieve a localized field, the behavior will use the following algorithm to find the contents for the field in the most recent locale:
 
-1. Set default locale as locale.
+1. Set default locale as locale
 2. Try to get the field in the set locale
-3. If empty, check if the locale has a dependency and if yes
-	a. if the primary language of the dependency and the current locale are different, work down the language-tag-chain of the current locale
-	b. set dependency as new locale, continue with step 2
-4. If no dependecy is set for that locale, work down the language-tag-chain
-4. If primary language is empty, use fallback as new locale and continue with step 2
-5. Last step: giving up, return null
+3. If empty, check if the locale has a dependency and if yes a. if the primary language of the dependency and the current locale are different, work down the language-tag-chain of the current locale b. set dependency as new locale, continue with step 2
+4. If no dependency is set for that locale, work down the language-tag-chain
+5. If primary language is empty, use fallback as new locale and continue with step 2
+6. Last step: giving up, return null
 
 Language-tag-chain:
 
-Given the following language-tag: `de-DE-1996` it consists of three subtags. When working down the language-tag-chain it means, the last subtag is dropped and it will be tried to getting the content of a field for the remaining language-tag until there is only the primary language left.
-
+Given the following language-tag: `de-DE-1996` it consists of three subtag. When working down the language-tag-chain it means, the last subtag is dropped and it will be tried to getting the content of a field for the remaining language-tag until there is only the primary language left.
 
 ## Usage
 
 ### In your schema.xml
 
-The usage in your schema.xml is very similar to the [i18n](http://propelorm.org/documentation/behaviors/i18n.html) behavior.
+The usage in your schema.xml is very similar to the [i18n](http://Propelorm.org/documentation/behaviors/i18n.html) behavior.
 
 ```xml
 <table name="book">
-	<column name="id" type="INTEGER" primaryKey="true" required="true"
-		autoIncrement="true" />
-	<column name="title" type="VARCHAR" size="255" />
-	<column name="author" type="VARCHAR" size="255" />
+    <column name="id" type="INTEGER" primaryKey="true" required="true"
+            autoIncrement="true"/>
+    <column name="title" type="VARCHAR" size="255"/>
+    <column name="author" type="VARCHAR" size="255"/>
 
-	<behavior name="l10n">
-		<parameter name="i18n_columns" value="title" />
-	</behavior>
+    <behavior name="l10n">
+        <parameter name="i18n_columns" value="title"/>
+    </behavior>
 </table>
 ```
 
-The parameters are equal to the [i18n parameters](http://propelorm.org/documentation/behaviors/i18n.html#parameters), except `default_locale` doesn't exist.
+The parameters are equal to the [i18n parameters](http://Propelorm.org/documentation/behaviors/i18n.html#parameters), except `default_locale` doesn't exist.
 
 ### Using the API
 
-There is three things you need to do once for your app and you are ready to go and use propel as if they weren't any l10n/i18n behaviors used at all.
+There are three things you need to do once for your app and you are ready to go and use Propel as if there weren't any l10n/i18n behaviors used at all.
 
 1. Set the default locale
 2. Set a fallback locale
@@ -209,7 +213,7 @@ $book = ...;
 
 ## Performance
 
-I'm pretty sure this is a performance nightmare. Only propel API methods are used, means no manual queries so far. Performance optimization can begin after propel will merge the `data-mapper` branch into `master`. Suggestions are welcome, please post the to the issue tracker.
+I'm pretty sure this is a performance nightmare. Only Propel API methods are used, means no manual queries so far. Performance optimization can begin after Propel will merge the `data-mapper` branch into `master`. Suggestions are welcome, please post the to the issue tracker.
 
 ## References
 
@@ -224,8 +228,3 @@ Related Specifications:
 
 - [RCP 5646 - Tags for Identifying Languages](https://tools.ietf.org/html/rfc5646)
 - [BCP 47 - Tags for Identifying Languages](https://www.rfc-editor.org/bcp/bcp47.txt)
-
-
-
-
-

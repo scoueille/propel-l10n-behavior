@@ -1,12 +1,24 @@
 <?php
+declare(strict_types=1);
+
 namespace gossi\propel\behavior\l10n;
 
-trait RenderTrait {
-	
-	protected function renderTemplate($name, $vars = []) {
-		$this->behavior->backupTemplatesDirname();
-		$template = $this->behavior->renderTemplate($name, $vars);
-		$this->behavior->restoreTemplatesDirname();
-		return $template;
-	}
+/**
+ *
+ */
+trait RenderTrait
+{
+
+    /**
+     * @param $name
+     * @param array $vars
+     * @return string
+     */
+    protected function renderTemplate($name, array $vars = []): string
+    {
+        $this->behavior->backupTemplatesDirname();
+        $template = $this->behavior->renderTemplate($name, $vars);
+        $this->behavior->restoreTemplatesDirname();
+        return $template;
+    }
 }

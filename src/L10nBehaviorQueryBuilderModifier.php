@@ -1,120 +1,182 @@
 <?php
+declare(strict_types=1);
+
 namespace gossi\propel\behavior\l10n;
 
 use Propel\Generator\Behavior\I18n\I18nBehaviorQueryBuilderModifier;
+use Propel\Generator\Builder\Om\QueryBuilder;
 use Propel\Generator\Model\Column;
 
-class L10nBehaviorQueryBuilderModifier extends I18nBehaviorQueryBuilderModifier {
-	
-	use RenderTrait;
+/**
+ *
+ */
+class L10nBehaviorQueryBuilderModifier extends I18nBehaviorQueryBuilderModifier
+{
 
-	public function queryMethods($builder) {
-		$builder->declareClass('gossi\\propel\\behavior\\l10n\\PropelL10n');
-		$script = parent::queryMethods($builder);
-		$script .= $this->objectAttributes();
-		$script .= $this->addSetLocale();
-		$script .= $this->addGetLocale();
-		
-		if ($alias = $this->behavior->getParameter('locale_alias')) {
-			$script .= $this->addGetLocaleAlias($alias);
-			$script .= $this->addSetLocaleAlias($alias);
-		}
-		
-		foreach ($this->behavior->getI18nColumns() as $column) {
-			$script .= $this->addFilter($column);
-			$script .= $this->addFind($column);
-			$script .= $this->addFindOne($column);
-		}
-		return $script;
-	}
-	
-	protected function objectAttributes() {
-		return $this->renderTemplate('queryAttributes');
-	}
-	
-	protected function addFilter(Column $column) {
-		return $this->renderTemplate('queryFilter', [
-			'queryClass'		=> $this->builder->getQueryClassName(),
-			'columnPhpName'     => $column->getPhpName(),
-			'columnName'		=> $column->getName(),
-			'localeColumnName'  => $this->behavior->getLocaleColumn()->getPhpName(),
-		]);
-	}
-	
-	protected function addFind(Column $column) {
-		return $this->renderTemplate('queryFind', [
-			'objectClassName'	=> $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder($column->getTable())),
-			'columnPhpName'     => $column->getPhpName(),
-			'columnName'		=> $column->getName(),
-			'localeColumnName'  => $this->behavior->getLocaleColumn()->getPhpName(),
-		]);
-	}
-	
-	protected function addFindOne(Column $column) {
-		return $this->renderTemplate('queryFindOne', [
-			'objectClassName'	=> $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder($column->getTable())),
-			'columnPhpName'     => $column->getPhpName(),
-			'columnName'		=> $column->getName(),
-			'localeColumnName'  => $this->behavior->getLocaleColumn()->getPhpName(),
-		]);
-	}
-	
-	protected function addSetLocale() {
-		return $this->renderTemplate('objectSetLocale', [
-			'objectClassName'   => $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder($this->table)),
-			'localeColumnName'  => $this->behavior->getLocaleColumn()->getPhpName(),
-		]);
-	}
-	
-	protected function addGetLocale() {
-		return $this->renderTemplate('objectGetLocale', [
-			'localeColumnName'  => $this->behavior->getLocaleColumn()->getPhpName(),
-		]);
-	}
-	
-	protected function addSetLocaleAlias($alias) {
-		return $this->renderTemplate('objectSetLocaleAlias', [
-			'objectClassName'  => $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder($this->table)),
-			'alias'            => ucfirst($alias),
-			'localeColumnName'  => $this->behavior->getLocaleColumn()->getPhpName(),
-		]);
-	}
-	
-	protected function addGetLocaleAlias($alias) {
-		return $this->renderTemplate('objectGetLocaleAlias', [
-			'alias' => ucfirst($alias),
-			'localeColumnName'  => $this->behavior->getLocaleColumn()->getPhpName(),
-		]);
-	}
-	
-	protected function addJoinI18n() {
-		$fk = $this->behavior->getI18nForeignKey();
-	
-		return $this->renderTemplate('queryJoinI18n', [
-			'queryClass'       => $this->builder->getQueryClassName(),
-			'i18nRelationName' => $this->builder->getRefFKPhpNameAffix($fk),
-			'localeColumn'     => $this->behavior->getLocaleColumn()->getPhpName(),
-		]);
-	}
+    use RenderTrait;
 
-	protected function addJoinWithI18n() {
-		$fk = $this->behavior->getI18nForeignKey();
-	
-		return $this->renderTemplate('queryJoinWithI18n', [
-			'queryClass'       => $this->builder->getQueryClassName(),
-			'i18nRelationName' => $this->builder->getRefFKPhpNameAffix($fk),
-		]);
-	}
+    /**
+     * @param QueryBuilder $builder
+     *
+     * @return string
+     */
+    public function queryMethods(QueryBuilder $builder): string
+    {
+        $builder->declareClass('gossi\\propel\\behavior\\l10n\\PropelL10n');
+        $script = parent::queryMethods($builder);
+        $script .= $this->objectAttributes();
+        $script .= $this->addSetLocale();
+        $script .= $this->addGetLocale();
 
-	protected function addUseI18nQuery() {
-		$i18nTable = $this->behavior->getI18nTable();
-		$fk = $this->behavior->getI18nForeignKey();
-	
-		return $this->renderTemplate('queryUseI18nQuery', [
-			'queryClass'           => $this->builder->getClassNameFromBuilder($this->builder->getNewStubQueryBuilder($i18nTable)),
-			'namespacedQueryClass' => $this->builder->getNewStubQueryBuilder($i18nTable)->getFullyQualifiedClassName(),
-			'i18nRelationName'     => $this->builder->getRefFKPhpNameAffix($fk),
-			'localeColumn'         => $this->behavior->getLocaleColumn()->getPhpName(),
-		]);
-	}
+        if ($alias = $this->behavior->getParameter('locale_alias')) {
+            $script .= $this->addGetLocaleAlias($alias);
+            $script .= $this->addSetLocaleAlias((string)$alias);
+        }
+
+        foreach ($this->behavior->getI18nColumns() as $column) {
+            $script .= $this->addFilter($column);
+            $script .= $this->addFind($column);
+            $script .= $this->addFindOne($column);
+        }
+        return $script;
+    }
+
+    /**
+     * @return string
+     */
+    protected function objectAttributes(): string
+    {
+        return $this->renderTemplate('queryAttributes');
+    }
+
+    /**
+     * @param Column $column
+     * @return string
+     */
+    protected function addFilter(Column $column): string
+    {
+        return $this->renderTemplate('queryFilter', [
+            'queryClass' => $this->builder->getQueryClassName(),
+            'columnPhpName' => $column->getPhpName(),
+            'columnName' => $column->getName(),
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
+        ]);
+    }
+
+    /**
+     * @param Column $column
+     * @return string
+     */
+    protected function addFind(Column $column): string
+    {
+        return $this->renderTemplate('queryFind', [
+            'objectClassName' => $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder()),
+            'columnPhpName' => $column->getPhpName(),
+            'columnName' => $column->getName(),
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
+        ]);
+    }
+
+    /**
+     * @param Column $column
+     * @return string
+     */
+    protected function addFindOne(Column $column): string
+    {
+        return $this->renderTemplate('queryFindOne', [
+            'objectClassName' => $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder()),
+            'columnPhpName' => $column->getPhpName(),
+            'columnName' => $column->getName(),
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function addSetLocale(): string
+    {
+        return $this->renderTemplate('objectSetLocale', [
+            'objectClassName' => $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder()),
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function addGetLocale(): string
+    {
+        return $this->renderTemplate('objectGetLocale', [
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
+        ]);
+    }
+
+    /**
+     * @param string $alias
+     * @return string
+     */
+    protected function addSetLocaleAlias(string $alias): string
+    {
+        return $this->renderTemplate('objectSetLocaleAlias', [
+            'objectClassName' => $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder()),
+            'alias' => ucfirst($alias),
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
+        ]);
+    }
+
+    /**
+     * @param string $alias
+     * @return string
+     */
+    protected function addGetLocaleAlias(string $alias): string
+    {
+        return $this->renderTemplate('objectGetLocaleAlias', [
+            'alias' => ucfirst($alias),
+            'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function addJoinI18n(): string
+    {
+        $fk = $this->behavior->getI18nForeignKey();
+
+        return $this->renderTemplate('queryJoinI18n', [
+            'queryClass' => $this->builder->getQueryClassName(),
+            'i18nRelationName' => $this->builder->getRefFKPhpNameAffix($fk),
+            'localeColumn' => $this->behavior->getLocaleColumn()->getPhpName(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function addJoinWithI18n(): string
+    {
+        $fk = $this->behavior->getI18nForeignKey();
+
+        return $this->renderTemplate('queryJoinWithI18n', [
+            'queryClass' => $this->builder->getQueryClassName(),
+            'i18nRelationName' => $this->builder->getRefFKPhpNameAffix($fk),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function addUseI18nQuery(): string
+    {
+        $i18nTable = $this->behavior->getI18nTable();
+        $fk = $this->behavior->getI18nForeignKey();
+
+        return $this->renderTemplate('queryUseI18nQuery', [
+            'queryClass' => $this->builder->getClassNameFromBuilder($this->builder->getNewStubQueryBuilder($i18nTable)),
+            'namespacedQueryClass' => $this->builder->getNewStubQueryBuilder($i18nTable)->getFullyQualifiedClassName(),
+            'i18nRelationName' => $this->builder->getRefFKPhpNameAffix($fk),
+            'localeColumn' => $this->behavior->getLocaleColumn()->getPhpName(),
+        ]);
+    }
 }
