@@ -1,7 +1,10 @@
 
 <?php echo $comment ?>
+<?php echo $functionStatement ?>
 
-<?php echo $column->getAccessorVisibility() ?> function get<?php echo $columnPhpName?>($locale = null<?php 
+    return $this->getCurrentTranslation()->get<?php echo $columnPhpName ?>(<?php echo $params ?>);
+
+<?php echo $column->getAccessorVisibility() ?> function get<?php echo $columnPhpName?>($locale = null<?php
 if ($column->isLazyLoad()) {
  	echo ", ConnectionInterface \$con = null";
 }
@@ -32,31 +35,31 @@ if ($column->isLazyLoad()) {
 	if ($locale === null) {
 		$locale = PropelL10n::getLocale();
 	}
-	
+
 	// try default locale
 	$value = $getTranslatedLocale($locale);
-	
+
 	if ($value === null) {
 		// try dependency chain
 		while (PropelL10n::hasDependency($locale) && $value === null) {
 			$newLocale = PropelL10n::getDependency($locale);
-			
+
 			// if primary language of dependency is different than current, work down language-tag-chain
 			if (\Locale::getPrimaryLanguage($newLocale) != \Locale::getPrimaryLanguage($locale)) {
 				$value = $workDownLanguageTag($locale);
 			}
-			
+
 			// proceed with dependency if still nothing is found
 			if ($value === null) {
 				$locale = $newLocale;
 				$value = $getTranslatedLocale($locale);
 			}
 		}
-		
+
 		// work down language-tag-chain
 		if ($value === null) {
 			$value = $workDownLanguageTag($locale);
-			
+
 			// try fallback language
 			if ($value === null) {
 				$locale = PropelL10n::getFallback();

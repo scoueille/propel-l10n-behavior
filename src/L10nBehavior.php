@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace gossi\propel\behavior\l10n;
+namespace Gossi\Propel\Behavior\L10n;
 
 use Propel\Generator\Behavior\I18n\I18nBehavior;
-use Propel\Generator\Behavior\I18n\I18nBehaviorObjectBuilderModifier;
-use Propel\Generator\Behavior\I18n\I18nBehaviorQueryBuilderModifier;
 use Propel\Generator\Builder\Om\AbstractOMBuilder;
 use ReflectionObject;
 
@@ -14,24 +12,38 @@ use ReflectionObject;
  */
 class L10nBehavior extends I18nBehavior
 {
-
-    // default parameters value
+    /**
+     * Default parameters value
+     *
+     * @var array<string, mixed>
+     */
     protected $parameters = [
         'i18n_table' => '%TABLE%_i18n',
         'i18n_phpname' => '%PHPNAME%I18n',
         'i18n_columns' => '',
         'i18n_pk_column' => null,
         'locale_column' => 'locale',
-        'locale_length' => 76,
+        'locale_length' => 5,
         'locale_alias' => '',
     ];
 
-    protected string $templateDirnameBackup;
+    /**
+     * @var string|null
+     */
+    protected $templateDirnameBackup;
+
+    /**
+     * @var L10nBehaviorObjectBuilderModifier|null
+     */
+    protected $objectBuilderModifier;
+
+    /**
+     * @var L10nBehaviorQueryBuilderModifier|null
+     */
+    protected $queryBuilderModifier;
 
     public function __construct()
     {
-//        parent::__construct();
-
         $r = new ReflectionObject(new I18nBehavior());
         $this->dirname = dirname((string)$r->getFileName());
     }
@@ -45,16 +57,6 @@ class L10nBehavior extends I18nBehavior
     }
 
     /**
-     * @param AbstractOMBuilder $builder
-     *
-     * @return string
-     */
-    public function staticAttributes(AbstractOMBuilder $builder): string
-    {
-        // override parent behavior... but do nothing
-    }
-
-    /**
      * @return string
      */
     public function getDefaultLocale(): string
@@ -63,11 +65,11 @@ class L10nBehavior extends I18nBehavior
     }
 
     /**
-     * @return I18nBehaviorObjectBuilderModifier
+     * @return L10nBehaviorObjectBuilderModifier
      */
-    public function getObjectBuilderModifier()
+    public function getObjectBuilderModifier(): ?L10nBehaviorObjectBuilderModifier
     {
-        if (null === $this->objectBuilderModifier) {
+        if ($this->objectBuilderModifier === null) {
             $this->objectBuilderModifier = new L10nBehaviorObjectBuilderModifier($this);
         }
 
@@ -75,15 +77,26 @@ class L10nBehavior extends I18nBehavior
     }
 
     /**
-     * @return I18nBehaviorQueryBuilderModifier
+     * @return L10nBehaviorQueryBuilderModifier
      */
-    public function getQueryBuilderModifier()
+    public function getQueryBuilderModifier(): ?L10nBehaviorQueryBuilderModifier
     {
-        if (null === $this->queryBuilderModifier) {
+        if ($this->queryBuilderModifier === null) {
             $this->queryBuilderModifier = new L10nBehaviorQueryBuilderModifier($this);
         }
 
         return $this->queryBuilderModifier;
+    }
+
+    /**
+     * @param AbstractOMBuilder $builder
+     *
+     * @return string
+     */
+    public function staticAttributes(AbstractOMBuilder $builder): string
+    {
+        // override parent behavior... but do nothing
+        return $this->renderTemplate('staticAttributes');
     }
 
     /**
@@ -102,6 +115,6 @@ class L10nBehavior extends I18nBehavior
      */
     public function restoreTemplatesDirname()
     {
-        $this->dirname = $this->templateDirnameBackup;
+        $this->dirname = (string)$this->templateDirnameBackup;
     }
 }

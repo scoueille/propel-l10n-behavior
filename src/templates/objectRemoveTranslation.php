@@ -2,12 +2,12 @@
 /**
  * Remove the translation for a given locale
  *
- * @param     string $locale Locale to use for the translation, e.g. 'de-DE'
- * @param     ConnectionInterface $con an optional connection object
+ * @param string $locale Locale to use for the translation, e.g. 'fr_FR'
+ * @param ConnectionInterface|null $con an optional connection object
  *
- * @return    $this|<?php echo $objectClassName ?> The current object (for fluent API support)
+ * @return $this|<?php echo $objectClassName ?> The current object (for fluent API support)
  */
-public function removeTranslation($locale = null, ConnectionInterface $con = null)
+public function removeTranslation(string $locale = null, ?ConnectionInterface $con = null)
 {
 	if ($locale === null) {
 		$locale = PropelL10n::getLocale();

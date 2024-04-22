@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace gossi\propel\behavior\l10n\tests\model;
+namespace Gossi\Propel\Behavior\L10n\Tests\Model;
 
-use gossi\propel\behavior\l10n\PropelL10n;
+use Gossi\Propel\Behavior\L10n\PropelL10n;
 use PHPUnit\Framework\TestCase;
 use Product;
 use ProductI18nQuery;
@@ -15,7 +15,6 @@ use Propel\Generator\Util\QuickBuilder;
  */
 class ProductTest extends TestCase
 {
-
     /**
      * @return void
      */

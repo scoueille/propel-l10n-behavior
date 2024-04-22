@@ -1,7 +1,10 @@
 
 <?php echo $comment ?>
+<?php echo $functionStatement ?>
+    $this->getCurrentTranslation()->set<?php echo $columnPhpName ?>(<?php echo $params ?>);
 
-<?php echo $visibility ?> function set<?php echo $columnPhpName?>(<?php echo $typeHint ?>, $locale = null<?php 
+    return $this;
+<?php echo $visibility ?> function set<?php echo $columnPhpName?>(<?php echo $typeHint ?>, $locale = null<?php
 if ($column->isLazyLoad()) {
  	echo ", ConnectionInterface \$con = null";
 }
@@ -14,6 +17,4 @@ if ($column->isLazyLoad()) {
 		$locale = PropelL10n::getLocale();
 	}
     $this->getTranslation($locale)->set<?php echo $columnPhpName ?>($v<?php if ($column->isLazyLoad()) echo ', $con';?>);
-
-    return $this;
 }

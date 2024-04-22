@@ -10,7 +10,7 @@
   "version": "0.1.x-dev",
   "autoload": {
     "psr-4": {
-      "gossi\\propel\\behavior\\l10n\\": "src"
+      "Gossi\\Propel\\Behavior\\L10n\\": "src"
     },
     "classmap": [
       "src/"
@@ -18,7 +18,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "gossi\\propel\\behavior\\l10n\\tests\\": "tests"
+      "Gossi\\Propel\\Behavior\\L10n\\Tests\\": "tests",
+      "Gossi\\Propel\\Behavior\\L10n\\Tests\\Model\\": "tests/model"
     }
   },
   "require": {
@@ -34,7 +35,7 @@
   },
   "extra": {
     "name": "l10n",
-    "class": "\\gossi\\propel\\behavior\\l10n\\L10nBehavior"
+    "class": "\\Gossi\\Propel\\Behavior\\L10n\\L10nBehavior"
   },
   "scripts": {
     "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",

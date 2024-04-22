@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace gossi\propel\behavior\l10n;
+namespace Gossi\Propel\Behavior\L10n;
 
 /**
  *

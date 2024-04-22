@@ -1,3 +1,8 @@
+
+/**
+ * Current locale
+ * @var        string
+ */
 protected $currentLocale;
 
 /**

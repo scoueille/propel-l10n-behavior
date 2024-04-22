@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace gossi\propel\behavior\l10n\tests;
+namespace Gossi\Propel\Behavior\L10n\Tests;
 
-use gossi\propel\behavior\l10n\PropelL10n;
+use Gossi\Propel\Behavior\L10n\PropelL10n;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
  */
 class PropelL10nTest extends TestCase
 {
-
     /**
      * @return void
      */

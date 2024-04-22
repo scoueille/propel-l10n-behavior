@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace gossi\propel\behavior\l10n\tests\model;
+namespace Gossi\Propel\Behavior\L10n\Tests\Model;
 
 use Book;
 use BookI18nQuery;
 use BookQuery;
-use gossi\propel\behavior\l10n\PropelL10n;
+use Gossi\Propel\Behavior\L10n\PropelL10n;
 use PHPUnit\Framework\TestCase;
 use Propel\Generator\Util\QuickBuilder;
 
@@ -15,7 +15,6 @@ use Propel\Generator\Util\QuickBuilder;
  */
 class BookQueryTest extends TestCase
 {
-
     /**
      * @return void
      */

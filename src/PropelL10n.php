@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace gossi\propel\behavior\l10n;
+namespace Gossi\Propel\Behavior\L10n;
 
 use Locale;
 
@@ -10,12 +10,20 @@ use Locale;
  */
 class PropelL10n
 {
+    /**
+     * @var array<string, mixed>
+     */
+    private static $dependencies = [];
 
-    private static array $dependencies = [];
+    /**
+     * @var string
+     */
+    private static $locale = 'en';
 
-    private static string $locale = 'en';
-
-    private static string $fallback = 'en';
+    /**
+     * @var string
+     */
+    private static $fallback = 'en';
 
     /**
      * @param string $locale
@@ -102,7 +110,7 @@ class PropelL10n
     {
         self::$dependencies = [];
         foreach ($dependencies as $k => $v) {
-            self::addDependency($k, $v);
+            self::addDependency((string)$k, (string)$v);
         }
     }
 
