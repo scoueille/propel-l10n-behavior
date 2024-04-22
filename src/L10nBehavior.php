@@ -5,7 +5,6 @@ namespace Gossi\Propel\Behavior\L10n;
 
 use Propel\Generator\Behavior\I18n\I18nBehavior;
 use Propel\Generator\Builder\Om\AbstractOMBuilder;
-use ReflectionObject;
 
 /**
  *
@@ -44,8 +43,7 @@ class L10nBehavior extends I18nBehavior
 
     public function __construct()
     {
-        $r = new ReflectionObject(new I18nBehavior());
-        $this->dirname = dirname((string)$r->getFileName());
+        $this->dirname = __DIR__ . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -53,7 +51,6 @@ class L10nBehavior extends I18nBehavior
      */
     public function modifyDatabase(): void
     {
-        // override parent behavior... but do nothing
     }
 
     /**
@@ -95,7 +92,6 @@ class L10nBehavior extends I18nBehavior
      */
     public function staticAttributes(AbstractOMBuilder $builder): string
     {
-        // override parent behavior... but do nothing
         return $this->renderTemplate('staticAttributes');
     }
 
@@ -106,8 +102,7 @@ class L10nBehavior extends I18nBehavior
     {
         $this->templateDirnameBackup = $this->dirname;
 
-        $r = new ReflectionObject($this);
-        $this->dirname = dirname((string)$r->getFileName());
+        $this->dirname = __DIR__ . DIRECTORY_SEPARATOR;
     }
 
     /**

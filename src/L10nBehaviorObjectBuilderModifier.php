@@ -26,7 +26,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      */
     public function objectAttributes(ObjectBuilder $builder): string
     {
-        return $this->behavior->renderTemplate('objectAttributes', [
+        return $this->renderTemplate('objectAttributes', [
             'objectClassName' => $builder->getClassNameFromBuilder(
                 $builder->getNewStubObjectBuilder($this->behavior->getI18nTable())
             ),
@@ -40,7 +40,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      */
     public function objectClearReferences(ObjectBuilder $builder): string
     {
-        return $this->behavior->renderTemplate('objectClearReferences');
+        return $this->renderTemplate('objectClearReferences');
     }
 
     /**
@@ -80,7 +80,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      */
     protected function addSetLocale(): string
     {
-        return $this->behavior->renderTemplate('objectSetLocale', [
+        return $this->renderTemplate('objectSetLocale', [
             'objectClassName' => $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder()),
             'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
         ]);
@@ -91,7 +91,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      */
     protected function addGetLocale(): string
     {
-        return $this->behavior->renderTemplate('objectGetLocale', [
+        return $this->renderTemplate('objectGetLocale', [
             'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
         ]);
     }
@@ -103,7 +103,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      */
     protected function addSetLocaleAlias(string $alias): string
     {
-        return $this->behavior->renderTemplate('objectSetLocaleAlias', [
+        return $this->renderTemplate('objectSetLocaleAlias', [
             'objectClassName' => $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder()),
             'alias' => ucfirst($alias),
             'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
@@ -117,7 +117,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      */
     protected function addGetLocaleAlias(string $alias): string
     {
-        return $this->behavior->renderTemplate('objectGetLocaleAlias', [
+        return $this->renderTemplate('objectGetLocaleAlias', [
             'alias' => ucfirst($alias),
             'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
         ]);
@@ -132,7 +132,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         $i18nTable = $this->behavior->getI18nTable();
         $fk = $this->behavior->getI18nForeignKey();
 
-        return $this->behavior->renderTemplate('objectGetTranslation', [
+        return $this->renderTemplate('objectGetTranslation', [
             'i18nTablePhpName' => $this->builder->getClassNameFromBuilder(
                 $this->builder->getNewStubObjectBuilder($i18nTable)
             ),
@@ -153,7 +153,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         $i18nTable = $this->behavior->getI18nTable();
         $fk = $this->behavior->getI18nForeignKey();
 
-        return $this->behavior->renderTemplate('objectRemoveTranslation', [
+        return $this->renderTemplate('objectRemoveTranslation', [
             'objectClassName' => $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder()),
             'i18nQueryName' => $this->builder->getClassNameFromBuilder(
                 $this->builder->getNewStubQueryBuilder($i18nTable)
@@ -168,7 +168,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      */
     protected function addGetCurrentTranslation(): string
     {
-        return $this->behavior->renderTemplate('objectGetCurrentTranslation', [
+        return $this->renderTemplate('objectGetCurrentTranslation', [
             'i18nTablePhpName' => $this->builder->getClassNameFromBuilder(
                 $this->builder->getNewStubObjectBuilder($this->behavior->getI18nTable())
             ),
@@ -199,7 +199,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         $functionStatement = preg_replace('/^\t/m', '', $functionStatement);
         preg_match_all('/\$[a-z]+/i', $functionStatement, $params);
 
-        return $this->behavior->renderTemplate('objectTranslatedColumnGetter', [
+        return $this->renderTemplate('objectTranslatedColumnGetter', [
             'comment' => $comment,
             'functionStatement' => $functionStatement,
             'columnPhpName' => $column->getPhpName(),
@@ -240,7 +240,7 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
         $functionStatement = preg_replace('/^\t/m', '', $functionStatement);
         preg_match_all('/\$[a-z]+/i', $functionStatement, $params);
 
-        return $this->behavior->renderTemplate('objectTranslatedColumnSetter', [
+        return $this->renderTemplate('objectTranslatedColumnSetter', [
             'comment' => $comment,
             'functionStatement' => $functionStatement,
             'columnPhpName' => $column->getPhpName(),

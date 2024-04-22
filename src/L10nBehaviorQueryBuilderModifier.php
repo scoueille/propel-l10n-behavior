@@ -6,7 +6,6 @@ namespace Gossi\Propel\Behavior\L10n;
 use Propel\Generator\Behavior\I18n\I18nBehaviorQueryBuilderModifier;
 use Propel\Generator\Builder\Om\QueryBuilder;
 use Propel\Generator\Model\Column;
-use Propel\Generator\Model\Table;
 
 /**
  *
@@ -53,7 +52,7 @@ class L10nBehaviorQueryBuilderModifier extends I18nBehaviorQueryBuilderModifier
     {
         $fk = $this->behavior->getI18nForeignKey();
 
-        return $this->behavior->renderTemplate('queryJoinI18n', [
+        return $this->renderTemplate('queryJoinI18n', [
             'queryClass' => $this->builder->getQueryClassName(),
             'i18nRelationName' => $this->builder->getRefFKPhpNameAffix($fk),
             'localeColumn' => $this->behavior->getLocaleColumn()->getPhpName(),
@@ -67,7 +66,7 @@ class L10nBehaviorQueryBuilderModifier extends I18nBehaviorQueryBuilderModifier
     {
         $fk = $this->behavior->getI18nForeignKey();
 
-        return $this->behavior->renderTemplate('queryJoinWithI18n', [
+        return $this->renderTemplate('queryJoinWithI18n', [
             'queryClass' => $this->builder->getQueryClassName(),
             'i18nRelationName' => $this->builder->getRefFKPhpNameAffix($fk),
         ]);
@@ -81,7 +80,7 @@ class L10nBehaviorQueryBuilderModifier extends I18nBehaviorQueryBuilderModifier
         $i18nTable = $this->behavior->getI18nTable();
         $fk = $this->behavior->getI18nForeignKey();
 
-        return $this->behavior->renderTemplate('queryUseI18nQuery', [
+        return $this->renderTemplate('queryUseI18nQuery', [
             'queryClass' => $this->builder->getClassNameFromBuilder($this->builder->getNewStubQueryBuilder($i18nTable)),
             'namespacedQueryClass' => $this->builder->getNewStubQueryBuilder($i18nTable)->getFullyQualifiedClassName(),
             'i18nRelationName' => $this->builder->getRefFKPhpNameAffix($fk),

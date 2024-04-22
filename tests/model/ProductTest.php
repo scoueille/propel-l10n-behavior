@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Gossi\Propel\Behavior\L10n\Tests\Model;
+namespace model;
 
 use Gossi\Propel\Behavior\L10n\PropelL10n;
 use PHPUnit\Framework\TestCase;

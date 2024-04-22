@@ -11,21 +11,13 @@
   "autoload": {
     "psr-4": {
       "Gossi\\Propel\\Behavior\\L10n\\": "src"
-    },
-    "classmap": [
-      "src/"
-    ]
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Gossi\\Propel\\Behavior\\L10n\\Tests\\": "tests",
-      "Gossi\\Propel\\Behavior\\L10n\\Tests\\Model\\": "tests/model"
     }
   },
   "require": {
     "php": "~7.4",
     "ext-intl": "*",
-    "propel/propel": "2.0.0-beta3"
+    "propel/propel": "2.0.0-beta3",
+    "mikey179/vfsstream": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.6",
