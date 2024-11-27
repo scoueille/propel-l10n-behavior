@@ -16,7 +16,7 @@
   "require": {
     "php": ">=7.4",
     "ext-intl": "*",
-    "propel/propel": ">=2.0.0-beta3",
+    "propel/propel": "~2.0@beta",
     "mikey179/vfsstream": "dev-master"
   },
   "require-dev": {
