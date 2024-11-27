@@ -50,15 +50,6 @@ EOF;
     /**
      * @return void
      */
-    protected function setUp(): void
-    {
-        ProductQuery::create()->deleteAll();
-        ProductI18nQuery::create()->deleteAll();
-    }
-
-    /**
-     * @return void
-     */
     public function testDefaultLocale()
     {
         $p = new Product();
@@ -132,5 +123,14 @@ EOF;
         $p->setTitle('good', 'en');
 
         static::assertEquals('bene', $p->getTitle('it-IT'));
+    }
+
+    /**
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        ProductQuery::create()->deleteAll();
+        ProductI18nQuery::create()->deleteAll();
     }
 }

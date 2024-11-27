@@ -59,8 +59,8 @@ The object default locale can be overwritten per call, e.g.
 ```php
 PropelL10n::setLocale('it');
 $book = BookQuery::create() // locale: it
-	->setLocale('ja') // locale: ja
-	->findOneByTitle('Herr der Ringe', null, 'de') // locale: de
+    ->setLocale('ja') // locale: ja
+    ->findOneByTitle('Herr der Ringe', null, 'de') // locale: de
 ;
 $book->setLocale('ja');
 $book->setTitle('Lord of the Rings', 'en');
@@ -87,9 +87,9 @@ echo PropelL10n::getDependency('de-CH'); // de
 
 // get and set all dependencies
 PropelL10n::setDependencies([
-	'de'	=> 'en',
-	'de-CH' => 'de',
-	'de-AT' => 'de'
+    'de'    => 'en',
+    'de-CH' => 'de',
+    'de-AT' => 'de'
 ]);
 print_r(PropelL10n::getDependencies()); // outputs the array from above
 
@@ -115,7 +115,7 @@ Whenever you retrieve a localized field, the behavior will use the following alg
 
 Language-tag-chain:
 
-Given the following language-tag: `de-DE-1996` it consists of three subtag. When working down the language-tag-chain it means, the last subtag is dropped and it will be tried to getting the content of a field for the remaining language-tag until there is only the primary language left.
+Given the following language-tag: `de-DE-1996` it consists of three subtag. When working down the language-tag-chain it means, the last subtag is dropped, and it will be tried to get the content of a field for the remaining language-tag until there is only the primary language left.
 
 ## Usage
 
@@ -140,7 +140,7 @@ The parameters are equal to the [i18n parameters](http://Propelorm.org/documenta
 
 ### Using the API
 
-There are three things you need to do once for your app and you are ready to go and use Propel as if there weren't any l10n/i18n behaviors used at all.
+There are three things you need to do once for your app, and you are ready to go and use Propel as if there were not any l10n/i18n behaviors used at all.
 
 1. Set the default locale
 2. Set a fallback locale
@@ -152,10 +152,10 @@ Example:
 PropelL10n::setLocale('de'); // this is mostly the language a user decided to use
 PropelL10n::setFallback('en'); // that's the default language of your app
 PropelL10n::setDependencies([ // that's the locales you have available
-	'de'	=> 'en'
-	'de-CH' => 'de',
-	'de-AT' => 'de',
-	'ja' => 'en'
+    'de'    => 'en'
+    'de-CH' => 'de',
+    'de-AT' => 'de',
+    'ja'    => 'en'
 ]);
 ```
 
@@ -186,24 +186,24 @@ You can use your well known methods to query the database:
 
 // contains all books with a german title starting with 'Harry Potter'
 $books = BookQuery::create()
-	->filterByTitle('Harry Potter%')
-	->find();
+    ->filterByTitle('Harry Potter%')
+    ->find();
 $books = ...; 
 
 // the book lord of the rings as searched with an english title name
 $book = BookQuery::create()
-	->findOneByTitle('Lord of the Rings', null, 'en');
+    ->findOneByTitle('Lord of the Rings', null, 'en');
 $book = ...; 
 
 // all harry potter books searched with the japanese title
 $books = BookQuery::create()
-	->setLocale('ja') 				// overwrites query default locale
-	->findByTitle('Harī Pottā%');
+    ->setLocale('ja')               // overwrites query default locale
+    ->findByTitle('Harī Pottā%');
 $books = ...;
 
 // find lord of the rings with the japanese title, overwrite locale with the filter method
 $book = BookQuery::create()
-	->findOneByTitle('Yubiwa Monogatari', null, 'ja');
+    ->findOneByTitle('Yubiwa Monogatari', null, 'ja');
 $book = ...;
 ```
 
@@ -217,7 +217,7 @@ I'm pretty sure this is a performance nightmare. Only Propel API methods are use
 
 ## References
 
-There's a lot material about localization, language-tags. Sometimes it is about finding the right subtag, which can be complicated enough. Here are some good references:
+There's a lot of material about localization, language-tags. Sometimes it is about finding the right subtag, which can be complicated enough. Here are some good references:
 
 - [Language Tags](http://www.w3.org/International/articles/language-tags/)
 - [Choosing a Language Tag](http://www.w3.org/International/questions/qa-choosing-language-tags)

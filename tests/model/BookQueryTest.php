@@ -51,38 +51,6 @@ EOF;
     /**
      * @return void
      */
-    protected function setUp(): void
-    {
-        // reset db contents
-        BookQuery::create()->deleteAll();
-        BookI18nQuery::create()->deleteAll();
-
-        // fill in some dummy data
-
-        // lord of the rings
-        $b = new Book();
-        $b->setTitle('Lord of the Rings');
-        $b->setTitle('Herr der Ringe', 'de');
-        $b->setTitle('Yubiwa Monogatari', 'ja-latn-JP');
-        $b->save();
-
-        // harry potter
-        $b = new Book();
-        $b->setTitle('Harry Potter and the Philosopher\'s Stone');
-        $b->setTitle('Harry Potter und der Stein der Weisen', 'de');
-        $b->setTitle('Harī Pottā to kenja no ishi', 'ja-latn-JP');
-        $b->save();
-
-        $b = new Book();
-        $b->setTitle('Harry Potter and the Prisoner of Azkaban');
-        $b->setTitle('Harry Potter und der Gefangene von Askaban', 'de');
-        $b->setTitle('Harī Pottā to Azukaban no shūjin', 'ja-latn-JP');
-        $b->save();
-    }
-
-    /**
-     * @return void
-     */
     public function testFilter()
     {
         $q = BookQuery::create();
@@ -134,5 +102,37 @@ EOF;
         $b = $q->findOne();
 
         static::assertNotNull($b);
+    }
+
+    /**
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        // reset db contents
+        BookQuery::create()->deleteAll();
+        BookI18nQuery::create()->deleteAll();
+
+        // fill in some dummy data
+
+        // lord of the rings
+        $b = new Book();
+        $b->setTitle('Lord of the Rings');
+        $b->setTitle('Herr der Ringe', 'de');
+        $b->setTitle('Yubiwa Monogatari', 'ja-latn-JP');
+        $b->save();
+
+        // harry potter
+        $b = new Book();
+        $b->setTitle('Harry Potter and the Philosopher\'s Stone');
+        $b->setTitle('Harry Potter und der Stein der Weisen', 'de');
+        $b->setTitle('Harī Pottā to kenja no ishi', 'ja-latn-JP');
+        $b->save();
+
+        $b = new Book();
+        $b->setTitle('Harry Potter and the Prisoner of Azkaban');
+        $b->setTitle('Harry Potter und der Gefangene von Askaban', 'de');
+        $b->setTitle('Harī Pottā to Azukaban no shūjin', 'ja-latn-JP');
+        $b->save();
     }
 }

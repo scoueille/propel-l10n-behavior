@@ -26,12 +26,13 @@ class PropelL10n
     private static $fallback = 'en';
 
     /**
-     * @param string $locale
-     * @return array|false|string|string[]
+     * Returns the fallback locale
+     *
+     * @return string
      */
-    public static function normalize(string $locale)
+    public static function getFallback(): string
     {
-        return str_replace('_', '-', Locale::composeLocale(Locale::parseLocale($locale)));
+        return self::$fallback;
     }
 
     /**
@@ -45,23 +46,12 @@ class PropelL10n
     }
 
     /**
-     * Returns the fallback locale
-     *
-     * @return string
-     */
-    public static function getFallback(): string
-    {
-        return self::$fallback;
-    }
-
-    /**
-     * Sets the current locale
-     *
      * @param string $locale
+     * @return array|false|string|string[]
      */
-    public static function setLocale(string $locale)
+    public static function normalize(string $locale)
     {
-        self::$locale = PropelL10n::normalize($locale);
+        return str_replace('_', '-', Locale::composeLocale(Locale::parseLocale($locale)));
     }
 
     /**
@@ -75,16 +65,13 @@ class PropelL10n
     }
 
     /**
-     * Adds a dependency
+     * Sets the current locale
      *
-     * @param string $locale the new locale which has a dependency
-     * @param string $dependsOn the locale on which it depends on
+     * @param string $locale
      */
-    public static function addDependency(string $locale, string $dependsOn)
+    public static function setLocale(string $locale)
     {
-        $locale = self::normalize($locale);
-        $dependsOn = self::normalize($dependsOn);
-        self::$dependencies[$locale] = $dependsOn;
+        self::$locale = PropelL10n::normalize($locale);
     }
 
     /**
@@ -95,6 +82,16 @@ class PropelL10n
     public static function removeDependency(string $locale)
     {
         unset(self::$dependencies[PropelL10n::normalize($locale)]);
+    }
+
+    /**
+     * Returns the current dependencies
+     *
+     * @return array
+     */
+    public static function getDependencies(): array
+    {
+        return self::$dependencies;
     }
 
     /**
@@ -115,13 +112,16 @@ class PropelL10n
     }
 
     /**
-     * Returns the current dependencies
+     * Adds a dependency
      *
-     * @return array
+     * @param string $locale the new locale which has a dependency
+     * @param string $dependsOn the locale on which it depends on
      */
-    public static function getDependencies(): array
+    public static function addDependency(string $locale, string $dependsOn)
     {
-        return self::$dependencies;
+        $locale = self::normalize($locale);
+        $dependsOn = self::normalize($dependsOn);
+        self::$dependencies[$locale] = $dependsOn;
     }
 
     /**

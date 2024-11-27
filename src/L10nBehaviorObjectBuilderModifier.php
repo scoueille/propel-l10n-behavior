@@ -101,10 +101,9 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      *
      * @return string
      */
-    protected function addSetLocaleAlias(string $alias): string
+    protected function addGetLocaleAlias(string $alias): string
     {
-        return $this->renderTemplate('objectSetLocaleAlias', [
-            'objectClassName' => $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder()),
+        return $this->renderTemplate('objectGetLocaleAlias', [
             'alias' => ucfirst($alias),
             'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
         ]);
@@ -115,9 +114,10 @@ class L10nBehaviorObjectBuilderModifier extends I18nBehaviorObjectBuilderModifie
      *
      * @return string
      */
-    protected function addGetLocaleAlias(string $alias): string
+    protected function addSetLocaleAlias(string $alias): string
     {
-        return $this->renderTemplate('objectGetLocaleAlias', [
+        return $this->renderTemplate('objectSetLocaleAlias', [
+            'objectClassName' => $this->builder->getClassNameFromBuilder($this->builder->getStubObjectBuilder()),
             'alias' => ucfirst($alias),
             'localeColumnName' => $this->behavior->getLocaleColumn()->getPhpName(),
         ]);
